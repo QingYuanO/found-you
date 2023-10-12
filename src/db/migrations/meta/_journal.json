@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1697095611319,
+      "tag": "0000_chief_korg",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1697099053892,
+      "tag": "0001_bent_prodigy",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1697099631988,
+      "tag": "0002_plain_darkstar",
+      "breakpoints": true
+    }
+  ]
+}
