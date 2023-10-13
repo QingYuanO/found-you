@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+
 import ThemeProvider from '@/components/ThemeProvider';
 
 import './globals.css';
+import ThemeToggleBtn from '@/components/ThemeProvider/ThemeToggleBtn';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,7 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
+          <main className="flex h-screen flex-col items-center justify-center">{children}</main>
+
+          <ThemeToggleBtn />
         </ThemeProvider>
       </body>
     </html>

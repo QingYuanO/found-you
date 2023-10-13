@@ -9,12 +9,12 @@ export default function ThemeToggleBtn() {
   const [mounted, setMounted] = useState(false);
   const { setTheme, theme } = useTheme();
   useEffect(() => {
-    if (theme === "system") {
-      const themeMedia = window.matchMedia("(prefers-color-scheme: light)");
+    if (theme === 'system') {
+      const themeMedia = window.matchMedia('(prefers-color-scheme: light)');
       if (themeMedia.matches) {
-        setTheme("light");
+        setTheme('light');
       } else {
-        setTheme("dark");
+        setTheme('dark');
       }
     }
     setMounted(true);
@@ -26,7 +26,7 @@ export default function ThemeToggleBtn() {
   return (
     <Button
       variant="outline"
-      className=" fixed bottom-32 right-4 z-50 flex-shrink-0 rounded-full text-lg opacity-90 shadow md:relative md:bottom-0 md:right-0"
+      className=" fixed  bottom-5 right-5 z-50 flex-shrink-0 rounded-full text-lg opacity-90 shadow"
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       size="icon"
     >
