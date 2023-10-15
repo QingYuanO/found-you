@@ -9,9 +9,9 @@ export default withAuth(
     if (!req.nextauth.token) {
       return NextResponse.redirect(new URL('/sign-in', req.url));
     }
-    if(req.nextauth.token && (path === "/sign-in" || path === "/sign-up")){
-      return NextResponse.redirect(new URL('/', req.url))
-    }
+    // if(req.nextauth.token && (path === "/sign-in" || path === "/sign-up")){
+    //   return NextResponse.redirect(new URL('/', req.url))
+    // }
     return NextResponse.next();
   },
   {
@@ -21,4 +21,4 @@ export default withAuth(
   }
 );
 
-// export const config = { matcher: ['/', '/admin'] };
+export const config = { matcher: ['/', '/admin'] };

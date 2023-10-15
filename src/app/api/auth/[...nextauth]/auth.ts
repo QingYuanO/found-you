@@ -1,12 +1,10 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import db from '@/db';
+import { userTable } from '@/db/schema';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { compare } from 'bcrypt';
 import { eq } from 'drizzle-orm';
-import db from '@/db';
-import { userTable } from '@/db/schema';
-
-
 
 const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db),
@@ -43,29 +41,13 @@ const authOptions: NextAuthOptions = {
         return {
           id: existingUser.id.toString(),
           username: existingUser.username,
+          name: existingUser.username,
           email: existingUser.email,
         };
       },
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      return true;
-    },
-    // async redirect({ url, baseUrl }) {
-    //   console.log('redirect-------',url,baseUrl);
-      
-    //   return baseUrl;
-    // },
-    async session({ session, user, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          username: token.username,
-        },
-      };
-    },
     async jwt({ token, user }) {
       if (user) {
         return {
@@ -74,6 +56,15 @@ const authOptions: NextAuthOptions = {
         };
       }
       return token;
+    },
+    async session({ session, user, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          username: token.username,
+        },
+      };
     },
   },
 };
