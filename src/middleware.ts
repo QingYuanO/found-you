@@ -1,24 +1,25 @@
+import { getToken } from 'next-auth/jwt';
 import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(req) {
-    console.log(req.nextauth.token,req.url);
     const path = req.nextUrl.pathname;
+    console.log(req.nextauth.token, req.url, path);
     if (!req.nextauth.token) {
       return NextResponse.redirect(new URL('/sign-in', req.url));
     }
-    // if(req.nextauth.token && (path === "/sign-in" || path === "/sign-up")){
-    //   return NextResponse.redirect(new URL('/', req.url))
-    // }
     return NextResponse.next();
   },
   {
     callbacks: {
       authorized: ({ token }) => !!token,
     },
+    pages: {
+      signIn: '/sign-in',
+    },
   }
 );
 
-export const config = { matcher: ['/', '/admin'] };
+export const config = { matcher: ['/', '/admin', '/api/(rooms|user)/:path*'] };
