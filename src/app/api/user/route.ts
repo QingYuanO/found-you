@@ -1,30 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import db from '@/db';
-import { UserRequestSchema } from '@/db/dto';
-import { userTable } from '@/db/schema';
-import { hash } from 'bcrypt';
-import { eq } from 'drizzle-orm';
+import { createUser } from '@/db/server';
 
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const { username, email, password } = UserRequestSchema.parse(body);
-    const existingUserByEmail = await db.query.userTable.findFirst({ where: eq(userTable.email, email) });
-    const existingUserByUsername = await db.query.userTable.findFirst({ where: eq(userTable.username, username) });
-    if (existingUserByEmail) {
-      return NextResponse.json({ message: '使用此邮箱的用户已存在', user: null, status: 409 });
-    }
-    if (existingUserByUsername) {
-      return NextResponse.json({ message: '使用此名称的用户已存在', user: null, status: 409 });
-    }
-
-    const hashPassword = await hash(password, 10);
-    const newUser = (await db.insert(userTable).values({ username, email, password: hashPassword }).returning())[0];
-
-    const { password: newPassword, ...rest } = newUser;
-
-    return NextResponse.json({ status: 201, user: rest, message: '注册成功' });
-  } catch (error: any) {
-    return NextResponse.json({ status: 500, user: null, message: 'error:' + error.message || '未知错误' });
-  }
+  const body = await req.json();
+  const data = await createUser(body);
+  return NextResponse.json(data);
 }

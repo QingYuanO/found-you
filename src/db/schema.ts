@@ -11,7 +11,7 @@ export const roomTypeEnum = pgEnum('room_type', ['bedroom', 'living_room', 'kitc
 /**
  * 房间
  */
-export const roomsTable = pgTable('rooms', {
+export const roomTable = pgTable('room', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description'),
@@ -22,22 +22,22 @@ export const roomsTable = pgTable('rooms', {
   ...baseColumn,
 });
 
-export const roomsTableRelations = relations(roomsTable, ({ one, many }) => ({
+export const roomTableRelations = relations(roomTable, ({ one, many }) => ({
   containers: many(containerTable),
   user: one(userTable, {
-    fields: [roomsTable.id],
+    fields: [roomTable.id],
     references: [userTable.id],
   }),
 }));
 /**容器 */
-export const containerTable = pgTable('containers', {
+export const containerTable = pgTable('container', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description'),
   cover: text('cover'),
   identifier: varchar('identifier', { length: 4 }),
   roomId: integer('room_id')
-    .references(() => roomsTable.id)
+    .references(() => roomTable.id)
     .notNull(),
   userId: integer('user_id')
     .references(() => userTable.id)
@@ -46,9 +46,9 @@ export const containerTable = pgTable('containers', {
 });
 
 export const containerTableRelations = relations(containerTable, ({ one, many }) => ({
-  room: one(roomsTable, {
+  room: one(roomTable, {
     fields: [containerTable.id],
-    references: [roomsTable.id],
+    references: [roomTable.id],
   }),
   user: one(userTable, {
     fields: [containerTable.id],
@@ -83,7 +83,7 @@ export const stuffTableRelations = relations(stuffTable, ({ one, many }) => ({
   }),
 }));
 
-export const userTable = pgTable('users', {
+export const userTable = pgTable('user', {
   id: serial('id').primaryKey(),
   username: text('name').unique().notNull(),
   email: text('email').unique().notNull(),
@@ -92,7 +92,7 @@ export const userTable = pgTable('users', {
 });
 
 export const userTableRelations = relations(userTable, ({ one, many }) => ({
-  rooms: many(roomsTable),
+  rooms: many(roomTable),
   containers: many(containerTable),
   stuffs: many(stuffTable),
 }));

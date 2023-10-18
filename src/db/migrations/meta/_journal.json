@@ -85,6 +85,13 @@
       "when": 1697536778252,
       "tag": "0011_red_valeria_richards",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1697612999251,
+      "tag": "0012_bitter_penance",
+      "breakpoints": true
     }
   ]
 }

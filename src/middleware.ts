@@ -6,7 +6,7 @@ export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(req) {
     const path = req.nextUrl.pathname;
-    console.log(req.nextauth.token, req.url, path);
+    // console.log(req.nextauth.token, req.url, path);
     if (!req.nextauth.token) {
       return NextResponse.redirect(new URL('/sign-in', req.url));
     }
@@ -22,4 +22,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ['/', '/admin', '/api/(rooms|user)/:path*'] };
+export const config = { matcher: ['/', '/admin',] };
