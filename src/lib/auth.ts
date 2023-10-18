@@ -52,6 +52,7 @@ const authOptions: NextAuthOptions = {
       if (user) {
         return {
           ...token,
+          id: user.id,
           username: user.username,
         };
       }
@@ -63,6 +64,7 @@ const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           username: token.username,
+          id: token.id,
         },
       };
     },
