@@ -12,3 +12,9 @@ export const UserSchema = z
   .merge(BaseSchema);
 
 export const UserRequestSchema = UserSchema.pick({ email: true, username: true, password: true });
+
+export const  UserResponseSchema = UserSchema.omit({ password: true });
+
+
+export type TypeUser = z.infer<typeof UserResponseSchema>;
+export type TypeUserRequest = z.infer<typeof UserRequestSchema>;
